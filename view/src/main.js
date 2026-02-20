@@ -20,6 +20,7 @@ document.addEventListener("DOMContentLoaded", () => {
   if (logoutBtn && logoutModal) {
     logoutBtn.addEventListener("click", () => {
       logoutModal.classList.remove("hidden");
+      logoutModal.classList.add("flex"); // Tambahkan flex saat dibuka
       document.body.style.overflow = "hidden";
     });
   }
@@ -27,6 +28,7 @@ document.addEventListener("DOMContentLoaded", () => {
   if (cancelLogout && logoutModal) {
     cancelLogout.addEventListener("click", () => {
       logoutModal.classList.add("hidden");
+      logoutModal.classList.remove("flex"); // Hapus flex saat ditutup
       document.body.style.overflow = "auto";
     });
   }
