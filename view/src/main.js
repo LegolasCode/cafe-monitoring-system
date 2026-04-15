@@ -10,11 +10,53 @@ document.addEventListener("DOMContentLoaded", () => {
   const logoutBtn = document.getElementById("logoutBtn");
   const logoutModal = document.getElementById("logoutModal");
   const cancelLogout = document.getElementById("cancelLogout");
-  const deleteAccountButtons = document.querySelectorAll("#deleteAccountButton");
+  const deleteAccountButtons = document.querySelectorAll(
+    "#deleteAccountButton",
+  );
   const deleteAccountModal = document.getElementById("deleteAccountModal");
   const cancelDeleteAccountButton = document.getElementById(
-    "cancelDeleteAccountButton"
+    "cancelDeleteAccountButton",
   );
+  const loginForm = document.getElementById("loginForm");
+
+  // --- LOGIKA LOGIN (Dengan Pengecekan Aman) ---
+  if (loginForm) {
+    loginForm.addEventListener("submit", function (e) {
+      e.preventDefault(); // Mencegah form melakukan reload halaman
+
+      const userVal = document.getElementById("username").value;
+      const passVal = document.getElementById("password").value;
+      const errorDiv = document.getElementById("errorMessage");
+
+      // 1. Data Simulasi Login
+      const validUsers = {
+        cafe: { username:"cafe", password: "cafe123", redirect: "view/cafe/dashboard.html" },
+        bapenda: {
+          password: "bapenda123",
+          redirect: "view/bapenda/select-cafe.html",
+        },
+      };
+
+      // 2. Validasi Kredensial
+      if (validUsers[userVal] && validUsers[userVal].password === passVal) {
+        // Sembunyikan error jika sebelumnya muncul
+        errorDiv.classList.add("hidden");
+
+        // Simpan status login sederhana (opsional)
+        sessionStorage.setItem("isLoggedIn", "true");
+        sessionStorage.setItem("role", userVal);
+
+        // 3. Redirect ke halaman tujuan
+        window.location.href = validUsers[userVal].redirect;
+      } else {
+        // Tampilkan pesan error jika login gagal
+        errorDiv.classList.remove("hidden");
+
+        // Reset input password untuk keamanan
+        document.getElementById("password").value = "";
+      }
+    });
+  }
 
   // --- LOGIKA MODAL LOGOUT (Dengan Pengecekan Aman) ---
   if (logoutBtn && logoutModal) {
